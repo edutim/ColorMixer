@@ -25,10 +25,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         updateColor()
+        
+        colorView.layer.borderWidth = 5
+        colorView.layer.cornerRadius = 20
+        colorView.layer.borderColor = UIColor.black.cgColor
+        
+        updateControls()
+        
     }
-
+        
     @IBAction func switchChanged(_ sender: UISwitch) {
         updateColor()
+        updateControls()
     }
     
     
@@ -36,6 +44,18 @@ class ViewController: UIViewController {
         updateColor()
     }
     
+    @IBAction func reset(_ sender: Any) {
+        redSwitch.isOn = false
+        greenSwitch.isOn = false
+        blueSwitch.isOn = false
+        
+        redSlider.value = 0.5
+        greenSlider.value = 0.5
+        blueSlider.value = 0.5
+        
+        updateColor()
+        updateControls()
+    }
     
     func updateColor() {
         print(redSlider.value)
@@ -55,6 +75,39 @@ class ViewController: UIViewController {
         
         let color = UIColor(red: red, green: green, blue: blue, alpha: 1)
         colorView.backgroundColor = color
+    }
+    
+    @IBAction func randomColor(_ sender: Any) {
+        var red: CGFloat = CGFloat.random(in: 0...1)
+        var green: CGFloat = CGFloat.random(in: 0...1)
+        var blue: CGFloat = CGFloat.random(in: 0...1)
+        
+        if redSwitch.isOn {
+            redSlider.value = Float(red)
+        } else {
+            red = 0.0
+        }
+        
+        if greenSwitch.isOn {
+            greenSlider.value = Float(green)
+        } else {
+            green = 0.0
+        }
+        
+        if blueSwitch.isOn {
+            blueSlider.value = Float(blue)
+        } else {
+            blue = 0.0
+        }
+        
+        let color = UIColor(red: red, green: green, blue: blue, alpha: 1)
+        colorView.backgroundColor = color
+    }
+    
+    func updateControls() {
+        redSlider.isEnabled = redSwitch.isOn
+        greenSlider.isEnabled = greenSwitch.isOn
+        blueSlider.isEnabled = blueSwitch.isOn
     }
     
 }
